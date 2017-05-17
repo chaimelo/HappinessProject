@@ -1,0 +1,54 @@
+
+<html>
+<head>
+<title>Highcharts Tutorial</title>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+   <script src="https://code.highcharts.com/highcharts.js"></script>
+   <script src="https://code.highcharts.com/highcharts-more.js"></script>
+</head>
+<body>
+<div id="container" style="width: 90%; height: 90%; margin: 0 auto"></div>
+<script language="JavaScript">
+
+Highcharts.chart('container', {
+
+    chart: {
+        type: 'bubble',
+        plotBorderWidth: 1,
+        zoomType: 'xy'
+    },
+
+    legend: {
+        enabled: true,
+    },
+
+    title: {
+        text: "Video Game's Sales and Year Released"
+    },
+
+    tooltip: {
+        useHTML: true,
+        headerFormat: '<table>',
+        pointFormat: '<tr><th colspan="2"><h3>{point.name}</h3></th></tr>' +
+            '<tr><th>Publisher:</th><td>{point.publisher}</td></tr>' +
+            '<tr><th>Year:</th><td>{point.x}</td></tr>' +
+            '<tr><th>Sale(million):</th><td>{point.y}</td></tr>',
+        footerFormat: '</table>',
+        followPointer: true
+    },
+
+    plotOptions: {
+        series: {
+            dataLabels: {
+                enabled: true,
+                format: '{point.name}'
+            }
+        }
+    },
+
+    series: {{series | safe}}
+
+});
+</script>
+</body>
+</html>

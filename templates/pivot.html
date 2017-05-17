@@ -53,7 +53,7 @@
         <div class="row">
             <div class="col-md-1"></div>
             <div class="col-md-10">
-               <div id="container" style="height:100%; width:100%; " ></div>
+               <div id="container"  ></div>
                 <script>
 
                         Highcharts.chart('container', {
@@ -63,7 +63,8 @@
                                 marginTop: 40,
                                 marginBottom: 100,
                                 plotBorderWidth: 1,
-                                height: {{yLength|safe}}
+                                height: {{yLength|safe}},
+                                width: {{xLength|safe}}
                             },
 
 
@@ -88,7 +89,7 @@
                             },
 
                             colorAxis: {
-                                min: 0,
+                                min: null,
                                 minColor: '#FFFFFF',
                                 maxColor: Highcharts.getOptions().colors[0]
                             },
@@ -111,6 +112,7 @@
 
                             series: [{
                                 name: '',
+                                turboThreshold: 100000,
                                 borderWidth: 1,
                                 data: {{v|safe}},
                                 dataLabels: {

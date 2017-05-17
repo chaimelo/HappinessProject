@@ -13,6 +13,7 @@ import numpy as np
 import csv
 
 app = Flask(__name__)
+
 iter_csv = pd.read_csv('Data/vgsales.csv', iterator=True, chunksize=1000)
 df = pd.concat([chunk[chunk['Year'] >= 2000] for chunk in iter_csv])
 
@@ -47,14 +48,14 @@ def pivot():
             table = pd.pivot_table(df,index=[str(cat1)], columns=[str(cat2)], values=[str(filter)],
                                    aggfunc=aggFunctions[aggr], fill_value="" )
 
-    table.round(2)
-    xLabel, yLabel, value = convertCSVFormat(table.to_csv())
+    xLabel, yLabel, value = convertCSVFormat(table.to_csv(), cat1, cat2)
     height = len(yLabel)*35
-    return render_template("pivot.html", x =xLabel,y=yLabel,v=value, yLength = height, row = str(cat1),
+    width = len(xLabel)*40
+    return render_template("pivot.html", x =xLabel,y=yLabel,v=value, yLength = height, xLength = width, row = str(cat1),
                            col=str(cat2),aggr= aggLabels[aggr], filter =filterLabels[filter] )
 
 
-def convertCSVFormat(file):
+def convertCSVFormat(file, cat1, cat2):
     lines = file.split('\n')
     aggr = True
     value = True
@@ -70,18 +71,30 @@ def convertCSVFormat(file):
             if value:
                 value = False
                 for item in items[1:]:
-                    yLabels.append(item)
+                    if str(cat2) == 'Year':
+                        item = int(float(item))
+                        yLabels.append(str(item))
+                    else:
+                        yLabels.append(item)
             else:
-                xLabels.append(items[0])
-                y = 0
-                for item in items[1:]:
+                if str(cat1) == 'Year' and cat1 != items[0]:
                     try:
-                        item = float(item)
-                        values.append([x, y, round(item,2)])
+                        item = int(float(items[0]))
+                        xLabels.append(str(item))
                     except ValueError:
-                        values.append([x, y, 0])
-                    y += 1
-                x += 1
+                        xLabels.append(items[0])
+                elif cat1 != items[0]:
+                    xLabels.append(items[0])
+                y = 0
+                if cat1 != items[0]:
+                    for item in items[1:]:
+                        try:
+                            item = float(item)
+                            values.append([x, y, round(item,2)])
+                        except ValueError:
+                            values.append([x, y, 0])
+                        y += 1
+                    x += 1
 
 
     return(xLabels, yLabels, values)
