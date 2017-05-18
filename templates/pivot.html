@@ -14,7 +14,7 @@
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/heatmap.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
-
+    <link rel="stylesheet" href="../static/pivot.css">
 
     <title>Results</title>
     <nav class="navbar navbar-default">
@@ -46,14 +46,14 @@
 <body>
     <div id='content' class='row-fluid'>
         <div class="row">
-             <div class="col-md-8">
+             <div class="col-md-12">
                  <h1>Your Table results</h1>
              </div>
         </div>
         <div class="row">
             <div class="col-md-1"></div>
             <div class="col-md-10">
-               <div id="container"  ></div>
+               <div id="container" style="width:100%;" ></div>
                 <script>
 
                         Highcharts.chart('container', {
@@ -97,10 +97,10 @@
                             legend: {
                                 align: 'right',
                                 layout: 'vertical',
-                                margin: 0,
+                                margin: 10,
                                 verticalAlign: 'top',
-                                y: 25,
-                                symbolHeight: 280
+                                y: 20,
+                                symbolHeight: {{yLength|safe}}/2
                             },
 
                             tooltip: {

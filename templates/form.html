@@ -10,7 +10,9 @@
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script language="JavaScript" type="text/javascript" src="../static/form.js"></script>
 <link rel="stylesheet" type="text/css" href="../static/home.css">
+    <script src="../static/form.js"></script>
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -42,7 +44,8 @@
     <div id='content' class='row-fluid'>
       <div class="row">
         <form name="Item_1" action="/pivot" method='POST'>
-            <div class="col-md-3">
+            <div class="col-md-2 col-sm-1"></div>
+            <div class="col-md-2 col-sm-3">
                 Select Column:
                 <br>
                 <select name="cat1">
@@ -52,7 +55,7 @@
                   <option >Publisher</option>
                 </select>
             </div>
-              <div class="col-md-3">
+              <div class="col-md-2 col-sm-3">
                 Select Row:
                   <br>
                  <select name="cat2">
@@ -63,30 +66,61 @@
                 </select>
 
             </div>
-               <div class="col-md-3">
-                Select an filter:
-                <br>
-                   <select name="filter">
-                  <option value="NA_Sales">North America</option>
-                  <option value="EU_Sales" >Europe</option>
-                  <option value="JP_Sales">Japan</option>
-                  <option value="Other_Sales">Other</option>
-                  <option value="Global_Sales">Global</option>
-                  <option value="All">All</option>
-                </select>
+               <div class="col-md-2 col-sm-3">
+                   <div class="row">
+                       Select an Value:
+                       <br>
+                       <select name="aggr">
+                          <option value="count">Count</option>
+                          <option value="sum">Sum</option>
+                          <option value="avg">Average</option>
+                          <option value="min">Minimum</option>
+                          <option value="max">Maximum</option>
+                        </select>
+                   </div>
+                   <div class="row">
+                        <br>
+                           <select name="value">
+                          <option value="NA_Sales">North America</option>
+                          <option value="EU_Sales" >Europe</option>
+                          <option value="JP_Sales">Japan</option>
+                          <option value="Other_Sales">Other</option>
+                          <option value="Global_Sales">Global</option>
+                        </select>
+                   </div>
+
             </div>
-               <div class="col-md-3">
-                Aggregate Method:
+               <div class="col-md-2 col-sm-2">
+                <div class="row">
+                    Select Filter:
+                    <br>
+                    <select name="filter" id="filter" onChange="change(this.value)">
+                        <option value="none"></option>
+                        <option value="Platform">Platform</option>
+                        <option value="Year">Year</option>
+                        <option value="Genre">Genre</option>
+                        <option value="Publisher">Publisher</option>
+                        <script> </script>
+                    </select>
+                </div>
+                   <div class="row">
+                        <br>
+                        <select name="options" id="options">
+                            <option value="" disabled selected>Select</option>
+                        </select>
+                    </div>
                 <br>
-                   <select name="aggr">
-                  <option value="count">Count</option>
-                  <option value="sum">Sum</option>
-                  <option value="avg">Average</option>
-                  <option value="min">Minimum</option>
-                  <option value="max">Maximum</option>
-                </select>
             </div>
-            <input type="submit" value="Submit">
+            <div class="col-md-2col-sm-1"></div>
+            <div class="row">
+                <div class="col-md-5 col-sm-5"></div>
+                <div class="col-md-2 col-sm-2">
+                    <input type="submit" value="Submit">
+                </div>
+                 <div class="col-md-5 col-sm-5"></div>
+            </div>
+
+
         </form>
       </div>
 
@@ -97,3 +131,5 @@
   </div>
 </body>
 </html>
+
+

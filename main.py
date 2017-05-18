@@ -19,7 +19,7 @@ df = pd.concat([chunk[chunk['Year'] >= 2000] for chunk in iter_csv])
 
 aggFunctions = {'count':np.count_nonzero, 'sum':np.sum, 'avg':np.mean,
             'min':np.min, 'max':np.max, 'med':np.median}
-filterLabels = {'NA_Sales':'North America Sales', 'EU_Sales': 'Europe Sales', 'JP_Sales': 'Japan Sales',
+valueLabels = {'NA_Sales':'North America Sales', 'EU_Sales': 'Europe Sales', 'JP_Sales': 'Japan Sales',
                    'Other_Sales': 'Other Sales', 'Global_Sales':'Global Sales'}
 aggLabels = {'count': 'Counting', 'sum': 'Sum of', 'avg': 'Average of',
              'min': 'Minimum of', 'max': 'Maximum of', 'med': 'Median of'}
@@ -39,20 +39,29 @@ def pivot():
         cat1 = request.form['cat1']
         cat2 = request.form['cat2']
         aggr = request.form['aggr']
+        value = request.form['value']
         filter = request.form['filter']
-        if str(filter) == 'All':
-            table = pd.pivot_table(df, index=[str(cat1), str(cat2)],
-                                   values=["NA_Sales","EU_Sales", "JP_Sales", "Other_Sales", "Global_Sales"],
+        option = request.form['options']
+        if filter == 'none':
+            table = pd.pivot_table(df, index=[str(cat1)], columns=[str(cat2)],
+                                   values=[str(value)],
+                                   aggfunc=aggFunctions[aggr], fill_value="")
+        elif filter == 'Year':
+            table = pd.pivot_table(df[df[filter] == int(option)], index=[str(cat1)], columns=[str(cat2)],
+                                   values=[str(value)],
                                    aggfunc=aggFunctions[aggr], fill_value="")
         else:
-            table = pd.pivot_table(df,index=[str(cat1)], columns=[str(cat2)], values=[str(filter)],
-                                   aggfunc=aggFunctions[aggr], fill_value="" )
+            table = pd.pivot_table(df[df[filter] == (option)], index=[str(cat1)], columns=[str(cat2)],
+                                   values=[str(value)],
+                                   aggfunc=aggFunctions[aggr], fill_value="")
 
-    xLabel, yLabel, value = convertCSVFormat(table.to_csv(), cat1, cat2)
-    height = len(yLabel)*35
-    width = len(xLabel)*40
-    return render_template("pivot.html", x =xLabel,y=yLabel,v=value, yLength = height, xLength = width, row = str(cat1),
-                           col=str(cat2),aggr= aggLabels[aggr], filter =filterLabels[filter] )
+
+    xLabel, yLabel, values = convertCSVFormat(table.to_csv(), cat1, cat2)
+    height = len(yLabel)*40
+    width = len(xLabel)*60
+    return render_template("pivot.html", x =xLabel,y=yLabel,v=values, yLength = height, xLength = width, row = str(cat1),
+                           col=str(cat2),aggr= aggLabels[aggr], filter =valueLabels[value] )
+
 
 
 def convertCSVFormat(file, cat1, cat2):
